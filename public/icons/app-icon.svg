@@ -1,0 +1,131 @@
+<svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Premium gradients -->
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+    
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb"/>
+      <stop offset="100%" style="stop-color:#f5576c"/>
+    </linearGradient>
+    
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2d3748"/>
+      <stop offset="50%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+    
+    <!-- Glow effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Shadow -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Main Icon Container -->
+  <g transform="translate(40, 50)">
+    <!-- Outer ring with pulse animation -->
+    <circle cx="50" cy="50" r="45" fill="none" stroke="url(#primaryGrad)" stroke-width="2" opacity="0.3">
+      <animate attributeName="r" values="45;50;45" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Main circular background -->
+    <circle cx="50" cy="50" r="35" fill="url(#primaryGrad)" filter="url(#shadow)"/>
+    
+    <!-- Voice visualization - dynamic waveform -->
+    <g transform="translate(25, 50)">
+      <!-- Central core -->
+      <circle cx="25" cy="0" r="3" fill="white" opacity="0.9"/>
+      
+      <!-- Animated voice bars -->
+      <rect x="15" y="-8" width="3" height="16" fill="white" opacity="0.8" rx="1.5">
+        <animate attributeName="height" values="16;25;16" dur="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="-8;-12.5;-8" dur="1.5s" repeatCount="indefinite"/>
+      </rect>
+      
+      <rect x="20" y="-12" width="3" height="24" fill="white" opacity="0.9" rx="1.5">
+        <animate attributeName="height" values="24;18;24" dur="1.8s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="-12;-9;-12" dur="1.8s" repeatCount="indefinite"/>
+      </rect>
+      
+      <rect x="30" y="-10" width="3" height="20" fill="white" opacity="0.9" rx="1.5">
+        <animate attributeName="height" values="20;28;20" dur="1.3s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="-10;-14;-10" dur="1.3s" repeatCount="indefinite"/>
+      </rect>
+      
+      <rect x="35" y="-6" width="3" height="12" fill="white" opacity="0.8" rx="1.5">
+        <animate attributeName="height" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="-6;-10;-6" dur="2s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+    
+    <!-- AI Neural connections -->
+    <g opacity="0.7">
+      <!-- Neural nodes -->
+      <circle cx="30" cy="25" r="2" fill="url(#accentGrad)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="70" cy="30" r="2" fill="url(#accentGrad)">
+        <animate attributeName="opacity" values="1;0.7;1" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="65" cy="70" r="2" fill="url(#accentGrad)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+      
+      <!-- Neural connections with flow animation -->
+      <path d="M30 25 Q 50 15 70 30" stroke="url(#accentGrad)" stroke-width="1" fill="none" opacity="0.5">
+        <animate attributeName="opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <path d="M70 30 Q 80 50 65 70" stroke="url(#accentGrad)" stroke-width="1" fill="none" opacity="0.5">
+        <animate attributeName="opacity" values="0.8;0.5;0.8" dur="2.5s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+  
+  <!-- Brand Name -->
+  <g transform="translate(160, 100)">
+    <!-- "Speak" -->
+    <text x="0" y="0" font-family="'Segoe UI', Arial, sans-serif" font-size="42" font-weight="700" fill="url(#textGrad)" filter="url(#shadow)">
+      Speak
+    </text>
+    
+    <!-- "Wise" with special styling -->
+    <text x="140" y="0" font-family="'Segoe UI', Arial, sans-serif" font-size="42" font-weight="700" fill="url(#accentGrad)" filter="url(#shadow)">
+      Wise
+    </text>
+    
+    <!-- Subtle connecting element -->
+    <circle cx="132" cy="-15" r="3" fill="url(#accentGrad)" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Tagline -->
+  <text x="165" y="130" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#64748b" font-weight="400" letter-spacing="0.5px">
+    AI-Powered Voice Learning
+  </text>
+  
+  <!-- Decorative elements -->
+  <g opacity="0.4">
+    <circle cx="420" cy="60" r="1.5" fill="url(#primaryGrad)">
+      <animate attributeName="cy" values="60;50;60" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="440" cy="80" r="1" fill="url(#accentGrad)">
+      <animate attributeName="cy" values="80;70;80" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="460" cy="70" r="1.2" fill="url(#primaryGrad)">
+      <animate attributeName="cy" values="70;60;70" dur="5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
