@@ -1,29 +1,10 @@
-import React from 'react'
+'use client'
+
 import { Button } from './ui/button'
 import { Bookmark, Clock, Play, BookOpen } from 'lucide-react'
-
-// Array of beautiful border colors for different cards
-const borderColors = [
-  'border-l-blue-500 border-t-blue-100 dark:border-t-blue-900',
-  'border-l-purple-500 border-t-purple-100 dark:border-t-purple-900',
-  'border-l-pink-500 border-t-pink-100 dark:border-t-pink-900',
-  'border-l-green-500 border-t-green-100 dark:border-t-green-900',
-  'border-l-orange-500 border-t-orange-100 dark:border-t-orange-900',
-  'border-l-cyan-500 border-t-cyan-100 dark:border-t-cyan-900',
-  'border-l-indigo-500 border-t-indigo-100 dark:border-t-indigo-900',
-  'border-l-rose-500 border-t-rose-100 dark:border-t-rose-900',
-]
-
-// Subject color mapping for badges
-const subjectColors = {
-  Science: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  Math: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  History: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
-  Language: 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200',
-  Art: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
-  Technology: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200',
-  default: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200',
-}
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import { subjectBorderColors, subjectColors, subjectsColors } from '@/constants'
 
 interface CompanionCardProps {
   id: string
@@ -31,7 +12,6 @@ interface CompanionCardProps {
   topic: string
   subject: string
   duration: number
-  colorIndex?: number
 }
 
 const CompanionCard: React.FC<CompanionCardProps> = ({ 
@@ -39,20 +19,21 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
   name, 
   topic, 
   subject, 
-  duration,
-  colorIndex = 0 
+  duration
 }) => {
-  const borderColorClass = borderColors[colorIndex % borderColors.length]
+  const router = useRouter();
+  const borderColorClass = subjectBorderColors[subject as keyof typeof subjectBorderColors] || subjectBorderColors.default
   const subjectColorClass = subjectColors[subject as keyof typeof subjectColors] || subjectColors.default
+  const iconBackgroundColor = subjectsColors[subject.toLowerCase() as keyof typeof subjectsColors] || "#E5E5E5"
 
   return (
     <div 
       data-companion-id={id}
       className={`
-        relative group bg-card text-card-foreground rounded-xl border-2 border-l-4 border-t-2 
+        relative group bg-card text-card-foreground rounded-xl border-2 border-l-5 border-t-2 
         ${borderColorClass} border-r-border border-b-border
         p-6 shadow-sm hover:shadow-2xl transition-all hover:scale-[1.03] hover:-translate-y-2
-        backdrop-blur-sm overflow-hidden
+        backdrop-blur-sm overflow-hidden h-full flex flex-col
         animate-in fade-in slide-in-from-bottom-4 duration-700
       `}>
       
@@ -71,13 +52,27 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
       </div>
 
       {/* Content */}
-      <div className="space-y-4 relative z-10">
+      <div className="flex flex-col h-full space-y-4 relative z-10">
         {/* Header */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <div className="flex items-start justify-between pr-8">
-            <h3 className="text-lg font-bold text-foreground leading-tight group-hover:text-primary transition-colors duration-300">
-              {name}
-            </h3>
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              {/* Subject Icon */}
+              <div
+                className="rounded-xl p-2.5 shadow-sm flex-shrink-0"
+                style={{ backgroundColor: iconBackgroundColor }}
+              >
+                <Image
+                  src={`/icons/${subject.toLowerCase()}.svg`}
+                  alt={subject}
+                  width={20}
+                  height={20}
+                />
+              </div>
+              <h3 className="text-lg font-bold text-foreground leading-tight group-hover:text-primary transition-colors duration-300 truncate">
+                {name}
+              </h3>
+            </div>
           </div>
           
           {/* Subject Badge */}
@@ -93,14 +88,14 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
         </div>
 
         {/* Topic Description */}
-        <div className="space-y-2">
-          <p className="text-sm text-muted-foreground leading-relaxed transition-colors duration-300 group-hover:text-foreground/80">
+        <div className="space-y-2 flex-1">
+          <p className="text-sm text-muted-foreground leading-relaxed transition-colors duration-300 group-hover:text-foreground/80 line-clamp-3">
             {topic}
           </p>
         </div>
 
         {/* Duration and Action */}
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center justify-between pt-2 mt-auto">
           <div className="flex items-center gap-1.5 text-sm text-muted-foreground transition-all duration-300 group-hover:text-foreground/80">
             <Clock className="h-4 w-4 transition-transform duration-300 group-hover:rotate-12" />
             <span>{duration} min</span>
@@ -110,6 +105,7 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
             variant="default" 
             size="sm"
             className="gap-1.5 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            onClick={() => router.push(`/companions/${id}`)}
           >
             <Play className="h-3 w-3 transition-transform duration-300 group-hover:scale-110" />
             Launch Lesson

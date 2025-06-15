@@ -26,6 +26,7 @@ import { Sparkles } from 'lucide-react'
 import { createCompanion } from '@/lib/actions/companion.actions'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { subjectsV2 } from '@/constants'
 
 const formSchema = z.object({
   icon: z.string().optional(),
@@ -126,14 +127,11 @@ const CompanionForm = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Maths">Maths</SelectItem>
-                    <SelectItem value="History">History</SelectItem>
-                    <SelectItem value="Science">Science</SelectItem>
-                    <SelectItem value="Language">Language</SelectItem>
-                    <SelectItem value="Economics">Economics</SelectItem>
-                    <SelectItem value="Geography">Geography</SelectItem>
-                    <SelectItem value="Coding">Coding</SelectItem>
-                    <SelectItem value="Technology">Technology</SelectItem>
+                    {subjectsV2.map((subject: string) => (
+                      <SelectItem key={subject} value={subject}>
+                        {subject}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />

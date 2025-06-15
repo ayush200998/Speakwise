@@ -18,7 +18,7 @@ const buttonVariants = cva(
         secondary:
           "cursor-pointer bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         ghost:
-          "cursor-pointer hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+          "cursor-pointer h-8 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
         gradient:
           "cursor-pointer bg-gradient-to-r from-purple-500 via-blue-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] hover:from-purple-600 hover:via-blue-600 hover:to-purple-700 before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/25 before:to-transparent before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-600",

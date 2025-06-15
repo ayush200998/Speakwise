@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { ThemeToggle } from './theme-toggle'
-import NavItems from './ui/NavItems'
+import NavItems from './NavItems'
 import { Button } from './ui/button'
 import {
   Drawer,

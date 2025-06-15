@@ -1,9 +1,14 @@
 import CompanionCard from '@/components/CompanionCard'
 import CompanionList from '@/components/CompanionList'
 import CTA from '@/components/CTA'
-import { recentSessions } from '@/constants'
+import { getAllCompanions, getRecentSessions } from '@/lib/actions/companion.actions'
 
-const Page = () => {
+const Page = async () => {
+  const companions = await getAllCompanions({
+    limit: 3,
+  });
+  const recentCompanionSessions = await getRecentSessions(10);
+
   return (
     <main
       id='home-page-container'
@@ -16,30 +21,16 @@ const Page = () => {
       </h2>
 
       <section id='companion-cards-container' className='companions-grid'>
-        <CompanionCard
-          id='123'
-          name='Nuera the brain explorer'
-          topic='Neural network of brain'
-          subject='Science'
-          duration={45}
-          colorIndex={0}
-        />
-        <CompanionCard
-          id='124'
-          name='Shakespeare the wordsmith'
-          topic='Exploring the beauty of English literature'
-          subject='Language'
-          duration={30}
-          colorIndex={1}
-        />
-        <CompanionCard
-          id='125'
-          name='Einstein the physicist'
-          topic='Understanding the theory of relativity'
-          subject='Science'
-          duration={60}
-          colorIndex={2}
-        />
+        {companions.companions?.map((companion) => (
+          <CompanionCard
+            key={companion.id}
+            id={companion.id}
+            name={companion.name}
+            topic={companion.topic}
+            subject={companion.subject}
+            duration={companion.duration}
+          />
+        ))}
       </section>
 
       <section
@@ -47,7 +38,7 @@ const Page = () => {
       >
         <CompanionList
           title='Recent Sessions'
-          companions={recentSessions}
+          companions={recentCompanionSessions as Companion[]}
         />
         <CTA />
       </section>
