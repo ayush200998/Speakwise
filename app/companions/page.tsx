@@ -6,7 +6,11 @@ import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
-const CompanionsPage = async ({searchParams}: SearchParams) => {
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+const CompanionsPage = async ({ searchParams }: PageProps) => {
   const { userId } = await auth()
   const filters = await searchParams;
   const subject = filters?.subject ? filters.subject : '';

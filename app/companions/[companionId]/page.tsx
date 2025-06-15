@@ -7,7 +7,11 @@ import CompanionDetails from "@/components/CompanionDetails";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-const CompanionDetailsPage = async ({ params }: { params: { companionId: string } }) => {
+interface PageProps {
+  params: Promise<{ companionId: string }>
+}
+
+const CompanionDetailsPage = async ({ params }: PageProps) => {
   const { companionId } = await params;
   const companionDetails = await getCompanionDetails(companionId);
   const user = await currentUser();
