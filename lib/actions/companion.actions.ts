@@ -33,11 +33,15 @@ export const getAllCompanions = async (params: GetAllCompanions) => {
         topic,
     } = params;
 
+    const { userId } = await auth();
+    if (!userId) throw new Error('Unauthorized');
+
     const supabase = createSupabaseClient();
 
     let query = supabase
         .from('companions')
         .select()
+        .eq('author', userId);
 
     if (subject && topic) {
         query = query.ilike('subject', `%${subject}%`)
