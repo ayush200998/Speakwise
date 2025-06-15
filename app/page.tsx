@@ -2,11 +2,19 @@ import CompanionCard from '@/components/CompanionCard'
 import CompanionList from '@/components/CompanionList'
 import CTA from '@/components/CTA'
 import { getAllCompanions, getRecentSessions } from '@/lib/actions/companion.actions'
+import { auth } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 
 // Force dynamic rendering for this page
 export const dynamic = 'force-dynamic'
 
 const Page = async () => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect('/sign-in');
+  }
+
   const companions = await getAllCompanions({
     limit: 3,
   });
