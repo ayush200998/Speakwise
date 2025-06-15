@@ -70,8 +70,8 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
                 />
               </div>
               <h3 className="text-lg font-bold text-foreground leading-tight group-hover:text-primary transition-colors duration-300 truncate">
-                {name}
-              </h3>
+              {name}
+            </h3>
             </div>
           </div>
           
