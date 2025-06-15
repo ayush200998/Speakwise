@@ -10,6 +10,7 @@ import {
 import { Clock, BookOpen } from 'lucide-react'
 import Image from 'next/image'
 import { subjectColorsLegacy, subjectsColors } from '@/constants'
+import { getSubjectIcon } from '@/lib/utils'
 
 interface Companion {
   id: string
@@ -71,10 +72,10 @@ const CompanionList: React.FC<CompanionListProps> = ({ title, companions }) => {
                             style={{ backgroundColor: iconBackgroundColor }}
                         >
                             <Image
-                            src={`/icons/${companion.subject}.svg`}
-                            alt={companion.subject}
-                            width={24}
-                            height={24}
+                              src={getSubjectIcon(companion.subject)}
+                              alt={companion.subject}
+                              width={24}
+                              height={24}
                             />
                         </div>
 

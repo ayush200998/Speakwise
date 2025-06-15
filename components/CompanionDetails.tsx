@@ -5,7 +5,7 @@ import { vapi } from '@/lib/vapi.sdk';
 import Lottie, { LottieRefCurrentProps } from 'lottie-react';
 import { useEffect, useRef, useState } from 'react';
 import { subjectColors } from '@/constants';
-import { cn, configureAssistant } from '@/lib/utils';
+import { cn, configureAssistant, getSubjectIcon } from '@/lib/utils';
 import soundwaves from '@/constants/soundwaves.json';
 import { Button } from './ui/button';
 import { Play, Square, Pause } from 'lucide-react';
@@ -134,7 +134,7 @@ const CompanionDetails = ({
     setMessages([]); // Clear previous messages
 
     const assistantOverrides = {
-      variableValues: { topic, subject, style },
+      variableValues: { topic, subject, style, voice },
       clientMessages: ['transcript', 'function-call', 'hang', 'speech-update'],
       serverMessages: ['transcript', 'function-call'],
     };  
@@ -155,7 +155,7 @@ const CompanionDetails = ({
       className='flex flex-col w-full h-[65vh] transition-colors duration-300 gap-8'
     >
       <section 
-        className='flex gap-8 max-sm:flex-col max-sm:gap-6'
+        className='flex gap-8 max-lg:flex-col max-lg:gap-6'
       >
         <div
           className='companion-section relative overflow-hidden bg-gradient-to-br from-card via-card/95 to-card/90 backdrop-blur-sm shadow-xl border border-border/50 hover:shadow-2xl transition-all duration-500'
@@ -187,7 +187,7 @@ const CompanionDetails = ({
               }}
             >
               <Image 
-                src={`/icons/${subject}.svg`}
+                src={getSubjectIcon(subject)}
                 alt={subject}
                 width={150}
                 height={150}
@@ -259,28 +259,28 @@ const CompanionDetails = ({
                     alt={userName}
                     width={130}
                     height={130}
-                    className='rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300'
+                    className='rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 max-sm:w-16 max-sm:h-16'
                   />
                 </div>
                 
                 {/* Enhanced status indicator */}
-                <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-gradient-to-br from-green-400 to-green-600 rounded-full border-3 border-background flex items-center justify-center shadow-lg">
-                  <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse" />
+                <div className="absolute -bottom-1 -right-1 w-7 h-7 max-sm:w-4 max-sm:h-4 bg-gradient-to-br from-green-400 to-green-600 rounded-full border-3 border-background flex items-center justify-center shadow-lg">
+                  <div className="w-2.5 h-2.5 max-sm:w-1.5 max-sm:h-1.5 bg-white rounded-full animate-pulse" />
                 </div>
               </div>
               
-              <div className="text-center space-y-2 mt-4">
+              <div className="text-center space-y-2 mt-4 max-sm:mt-2">
                 <div className="inline-flex items-center gap-2 px-2 py-1 bg-muted/50 rounded-full">
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                   <p className='text-xs text-muted-foreground font-semibold uppercase tracking-wide'>Student</p>
                 </div>
-                <p className='text-xl font-bold group-hover:text-primary transition-colors duration-300'>{userName}</p>
+                <p className='text-xl max-sm:text-sm font-bold group-hover:text-primary transition-colors duration-300'>{userName}</p>
               </div>
             </div>
           </div>
 
           {/* Mic and Pause buttons row */}
-          <div className="flex lg:flex-row flex-col gap-4 lg:gap-3">
+          <div className="grid grid-cols-2 gap-4 max-sm:gap-2">
             <button
               className='btn-mic group relative overflow-hidden bg-gradient-to-br from-muted via-muted/95 to-muted/90 hover:from-accent/80 hover:to-accent/60 border border-border/50 hover:border-accent/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed'
               onClick={toggleMicrophone}
@@ -289,23 +289,23 @@ const CompanionDetails = ({
               {/* Button background effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
               
-              <div className="relative z-10 flex flex-col items-center gap-2">
+              <div className="relative z-10 flex flex-col items-center gap-2 max-sm:gap-1">
                 <div className="relative">
                   <Image
                     src={isMuted ? '/icons/mic-off.svg' : '/icons/mic-on.svg'}
                     alt='microphone'
                     width={36}
                     height={36}
-                    className="transition-all duration-300 group-hover:scale-110 group-disabled:grayscale"
+                    className="transition-all duration-300 group-hover:scale-110 group-disabled:grayscale max-sm:w-6 max-sm:h-6"
                   />
                   
                   {/* Active call indicator */}
                   {callStatus === CallStatus.ACTIVE && (
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-br from-red-400 to-red-600 rounded-full animate-pulse shadow-lg shadow-red-500/50" />
+                    <div className="absolute -top-1 -right-1 w-3 h-3 max-sm:w-2 max-sm:h-2 bg-gradient-to-br from-red-400 to-red-600 rounded-full animate-pulse shadow-lg shadow-red-500/50" />
                   )}
                 </div>
                 
-                <p className='text-lg font-semibold max-md:hidden transition-all duration-300 group-hover:text-accent-foreground'>
+                <p className='text-lg max-sm:text-xs font-semibold transition-all duration-300 group-hover:text-accent-foreground'>
                   {callStatus === CallStatus.ACTIVE ? (isMuted ? 'Unmute' : 'Mute') : 'Mic'}
                 </p>
               </div>
@@ -319,21 +319,21 @@ const CompanionDetails = ({
               {/* Button background effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
               
-              <div className="relative z-10 flex flex-col items-center gap-2">
+              <div className="relative z-10 flex flex-col items-center gap-2 max-sm:gap-1">
                 <div className="relative">
                   {isPaused ? (
-                    <Play className="w-9 h-9 text-orange-600 dark:text-orange-400 transition-all duration-300 group-hover:scale-110 group-disabled:grayscale" />
+                    <Play className="w-9 h-9 max-sm:w-6 max-sm:h-6 text-orange-600 dark:text-orange-400 transition-all duration-300 group-hover:scale-110 group-disabled:grayscale" />
                   ) : (
-                    <Pause className="w-9 h-9 text-orange-600 dark:text-orange-400 transition-all duration-300 group-hover:scale-110 group-disabled:grayscale" />
+                    <Pause className="w-9 h-9 max-sm:w-6 max-sm:h-6 text-orange-600 dark:text-orange-400 transition-all duration-300 group-hover:scale-110 group-disabled:grayscale" />
                   )}
                   
                   {/* Active call indicator */}
                   {callStatus === CallStatus.ACTIVE && isPaused && (
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full animate-pulse shadow-lg shadow-orange-500/50" />
+                    <div className="absolute -top-1 -right-1 w-3 h-3 max-sm:w-2 max-sm:h-2 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full animate-pulse shadow-lg shadow-orange-500/50" />
                   )}
                 </div>
                 
-                <p className='text-lg font-semibold max-md:hidden transition-all duration-300 group-hover:text-accent-foreground'>
+                <p className='text-lg max-sm:text-xs font-semibold transition-all duration-300 group-hover:text-accent-foreground'>
                   {callStatus === CallStatus.ACTIVE ? (isPaused ? 'Resume' : 'Pause') : 'Pause'}
                 </p>
               </div>
@@ -343,7 +343,7 @@ const CompanionDetails = ({
           <Button
             variant={[CallStatus.INACTIVE, CallStatus.FINISHED].includes(callStatus) ? 'shine' : 'destructive'}
             className={cn(
-              'h-14 max-md:h-full max-md:w-[50%] gap-3 font-bold text-base shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden group border-0',
+              'h-14 max-sm:h-12 gap-3 font-bold text-base max-sm:text-sm shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden group border-0 w-full',
               [CallStatus.INACTIVE, CallStatus.FINISHED].includes(callStatus) && 'bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 hover:from-blue-700 hover:via-purple-700 hover:to-blue-700 text-white',
               callStatus === CallStatus.CONNECTING && 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white',
               callStatus === CallStatus.ACTIVE && 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
@@ -356,17 +356,17 @@ const CompanionDetails = ({
             <div className="relative z-10 flex items-center gap-3">
               {callStatus === CallStatus.ACTIVE ? (
                 <>
-                  <Square className="h-5 w-5" />
+                  <Square className="h-5 w-5 max-sm:h-4 max-sm:w-4" />
                   <span>End Session</span>
                 </>
               ) : callStatus === CallStatus.CONNECTING ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-5 h-5 max-sm:w-4 max-sm:h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   <span>Connecting...</span>
                 </>
               ) : (
                 <>
-                  <Play className="h-5 w-5" />
+                  <Play className="h-5 w-5 max-sm:h-4 max-sm:w-4" />
                   <span>Start Session</span>
                 </>
               )}

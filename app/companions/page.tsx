@@ -4,6 +4,9 @@ import SubjectFilters from '@/components/SubjectFilters'
 import { getAllCompanions } from '@/lib/actions/companion.actions'
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 import React from 'react'
 
 interface PageProps {
@@ -42,9 +45,20 @@ const CompanionsPage = async ({ searchParams }: PageProps) => {
           </p>
         </div>
 
-        <div className='flex flex-row gap-2'>
-          <SearchInput />
-          <SubjectFilters />
+        <div className='flex flex-col sm:flex-row gap-2 w-full sm:w-auto'>
+          <div className='flex flex-row gap-2 flex-1 sm:flex-initial'>
+            <SearchInput />
+            <SubjectFilters />
+          </div>
+          <Link href="/companions/new">
+            <Button 
+              variant="default" 
+              className="w-full sm:w-auto gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              <Plus className="h-4 w-4" />
+              <span className="font-semibold">Create</span>
+            </Button>
+          </Link>
         </div>
       </div>
 

@@ -28,8 +28,27 @@ export const subjectsColors = {
 };
 
 export const voices = {
-  male: { casual: "2BJW5coyhAzSr8STdHbE", formal: "c6SfcYrb2t09NHXiT80T" },
-  female: { casual: "ZIlrSGI4jZqobxRKprJz", formal: "sarah" },
+  male: { 
+    casual: "2BJW5coyhAzSr8STdHbE", 
+    formal: "c6SfcYrb2t09NHXiT80T",
+    friendly: "2BJW5coyhAzSr8STdHbE", // Maps to casual
+    professional: "c6SfcYrb2t09NHXiT80T", // Maps to formal
+    enthusiastic: "2BJW5coyhAzSr8STdHbE" // Maps to casual
+  },
+  female: { 
+    casual: "ZIlrSGI4jZqobxRKprJz", 
+    formal: "sarah",
+    friendly: "ZIlrSGI4jZqobxRKprJz", // Maps to casual
+    professional: "sarah", // Maps to formal
+    enthusiastic: "ZIlrSGI4jZqobxRKprJz" // Maps to casual
+  },
+  neutral: { 
+    casual: "ZIlrSGI4jZqobxRKprJz", 
+    formal: "sarah",
+    friendly: "ZIlrSGI4jZqobxRKprJz", 
+    professional: "sarah", 
+    enthusiastic: "ZIlrSGI4jZqobxRKprJz" 
+  },
 };
 
 export const recentSessions = [
@@ -118,4 +137,26 @@ export const subjectColorsLegacy = {
   history: 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/50 dark:text-orange-300 dark:border-orange-800',
   economics: 'bg-green-50 text-green-700 border-green-200 dark:bg-green-950/50 dark:text-green-300 dark:border-green-800',
   default: 'bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-950/50 dark:text-gray-300 dark:border-gray-800',
+}
+
+// Vibrant background colors for subject icons in CompanionCard
+export const subjectIconBackgrounds = {
+  Maths: 'bg-gradient-to-br from-blue-400 to-indigo-600 shadow-lg shadow-blue-500/25',
+  History: 'bg-gradient-to-br from-orange-400 to-red-500 shadow-lg shadow-orange-500/25',
+  Science: 'bg-gradient-to-br from-emerald-400 to-teal-600 shadow-lg shadow-emerald-500/25',
+  Language: 'bg-gradient-to-br from-pink-400 to-rose-600 shadow-lg shadow-pink-500/25',
+  Economics: 'bg-gradient-to-br from-purple-400 to-violet-600 shadow-lg shadow-purple-500/25',
+  Geography: 'bg-gradient-to-br from-green-400 to-emerald-600 shadow-lg shadow-green-500/25',
+  Coding: 'bg-gradient-to-br from-fuchsia-400 to-pink-600 shadow-lg shadow-fuchsia-500/25',
+  Technology: 'bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg shadow-cyan-500/25',
+  // Lowercase versions for backward compatibility
+  maths: 'bg-gradient-to-br from-blue-400 to-indigo-600 shadow-lg shadow-blue-500/25',
+  history: 'bg-gradient-to-br from-orange-400 to-red-500 shadow-lg shadow-orange-500/25',
+  science: 'bg-gradient-to-br from-emerald-400 to-teal-600 shadow-lg shadow-emerald-500/25',
+  language: 'bg-gradient-to-br from-pink-400 to-rose-600 shadow-lg shadow-pink-500/25',
+  economics: 'bg-gradient-to-br from-purple-400 to-violet-600 shadow-lg shadow-purple-500/25',
+  geography: 'bg-gradient-to-br from-green-400 to-emerald-600 shadow-lg shadow-green-500/25',
+  coding: 'bg-gradient-to-br from-fuchsia-400 to-pink-600 shadow-lg shadow-fuchsia-500/25',
+  technology: 'bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg shadow-cyan-500/25',
+  default: 'bg-gradient-to-br from-gray-400 to-slate-600 shadow-lg shadow-gray-500/25',
 }

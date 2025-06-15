@@ -8,9 +8,19 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const configureAssistant = (voice: string, style: string) => {
-  const voiceId = voices[voice as keyof typeof voices][
-          style as keyof (typeof voices)[keyof typeof voices]
-          ] || "sarah";
+  // Normalize voice and style parameters
+  const normalizedVoice = voice?.toLowerCase()?.trim() || 'female';
+  const normalizedStyle = style?.toLowerCase()?.trim() || 'formal';
+  
+  // Get the voice ID with proper fallback chain
+  const voiceConfig = voices[normalizedVoice as keyof typeof voices];
+  const voiceId = voiceConfig?.[normalizedStyle as keyof typeof voiceConfig] || 
+                  voiceConfig?.['formal' as keyof typeof voiceConfig] || 
+                  voices.female.formal || 
+                  "sarah";
+  
+  // Log for debugging (can be removed in production)
+  console.log(`🎤 Voice Config: ${normalizedVoice} (${normalizedStyle}) -> ${voiceId}`);
 
   const vapiAssistant: CreateAssistantDTO = {
     name: "Companion",
@@ -72,3 +82,30 @@ export const configureAssistant = (voice: string, style: string) => {
   };
   return vapiAssistant;
 };
+
+// Utility function to get subject icon with fallback
+export function getSubjectIcon(subject: string): string {
+  const normalizedSubject = subject.toLowerCase().trim()
+  
+  // List of available subject icons
+  const availableIcons = [
+    'science',
+    'maths', 
+    'language',
+    'history',
+    'coding',
+    'economics',
+    'geography',
+    'technology',
+    'finance',
+    'business'
+  ]
+  
+  // Check if the icon exists, otherwise return a default
+  if (availableIcons.includes(normalizedSubject)) {
+    return `/icons/${normalizedSubject}.svg`
+  }
+  
+  // Fallback to a default icon
+  return `/icons/cap.svg` // Using cap.svg as default education icon
+}

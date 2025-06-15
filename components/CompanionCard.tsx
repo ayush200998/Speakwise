@@ -4,7 +4,8 @@ import { Button } from './ui/button'
 import { Bookmark, Clock, Play, BookOpen } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { subjectBorderColors, subjectColors, subjectsColors } from '@/constants'
+import { subjectBorderColors, subjectColors, subjectIconBackgrounds } from '@/constants'
+import { getSubjectIcon } from '@/lib/utils'
 
 interface CompanionCardProps {
   id: string
@@ -24,7 +25,7 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
   const router = useRouter();
   const borderColorClass = subjectBorderColors[subject as keyof typeof subjectBorderColors] || subjectBorderColors.default
   const subjectColorClass = subjectColors[subject as keyof typeof subjectColors] || subjectColors.default
-  const iconBackgroundColor = subjectsColors[subject.toLowerCase() as keyof typeof subjectsColors] || "#E5E5E5"
+  const iconBackgroundClass = subjectIconBackgrounds[subject as keyof typeof subjectIconBackgrounds] || subjectIconBackgrounds.default
 
   return (
     <div 
@@ -59,14 +60,14 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
             <div className="flex items-center gap-3 min-w-0 flex-1">
               {/* Subject Icon */}
               <div
-                className="rounded-xl p-2.5 shadow-sm flex-shrink-0"
-                style={{ backgroundColor: iconBackgroundColor }}
+                className={`rounded-xl p-2.5 flex-shrink-0 transition-transform duration-300 group-hover:scale-110 ${iconBackgroundClass}`}
               >
                 <Image
-                  src={`/icons/${subject.toLowerCase()}.svg`}
+                  src={getSubjectIcon(subject)}
                   alt={subject}
-                  width={20}
-                  height={20}
+                  width={24}
+                  height={24}
+                  className="brightness-0 invert transition-all duration-300"
                 />
               </div>
               <h3 className="text-lg font-bold text-foreground leading-tight group-hover:text-primary transition-colors duration-300 truncate">

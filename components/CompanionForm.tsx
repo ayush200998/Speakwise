@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Sparkles } from 'lucide-react'
+import { Sparkles, ArrowLeft, Loader2 } from 'lucide-react'
 import { createCompanion } from '@/lib/actions/companion.actions'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
@@ -54,6 +54,8 @@ const formSchema = z.object({
 
 const CompanionForm = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = React.useState(false);
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -67,24 +69,53 @@ const CompanionForm = () => {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    try {
+      setIsLoading(true);
+      console.log(values)
 
-    const companion = await createCompanion(values);
+      const companion = await createCompanion(values);
 
-    if (companion) {
-      toast.success('Companion created successfully');
-      router.push(`/companions/${companion.id}`);
-    } else {
+      if (companion) {
+        toast.success('Companion created successfully');
+        router.push(`/companions/${companion.id}`);
+      } else {
+        toast.error('Failed to create companion');
+      }
+    } catch (error) {
+      console.error('Error creating companion:', error);
       toast.error('Failed to create companion');
+    } finally {
+      setIsLoading(false);
     }
   }
 
+  const handleBack = () => {
+    router.back(); // Go back to previous page
+  };
+
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold text-foreground mb-2">
-          Companion Builder
-        </h1>
+      <div className="mb-6">
+        {/* Header with Back Button */}
+        <div className="text-center relative">
+          <div className="absolute left-0 top-0 flex items-center">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleBack}
+              className="flex items-center gap-2 hover:bg-accent hover:text-accent-foreground transition-colors duration-200"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Button>
+          </div>
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Companion Builder
+          </h1>
+          <p className="text-muted-foreground">
+            Create your personalized AI learning companion
+          </p>
+        </div>
       </div>
 
       <Form {...form}>
@@ -245,10 +276,20 @@ const CompanionForm = () => {
             <Button 
               type="submit" 
               variant="default"
-              className="w-full h-12 text-base gap-2"
+              disabled={isLoading}
+              className="w-full h-12 text-base gap-2 disabled:opacity-60"
             >
-              <Sparkles className="h-5 w-5" />
-              Build Companion
+              {isLoading ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Creating Companion...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-5 w-5" />
+                  Build Companion
+                </>
+              )}
             </Button>
           </div>
         </form>
