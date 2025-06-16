@@ -73,6 +73,9 @@ export const getAllCompanions = async (params: GetAllCompanions) => {
 export const getCompanionDetails = async (companionId: string) => {
   const supabase = createSupabaseClient();
 
+  const { userId } = await auth();
+  if (!userId) throw new Error('Unauthorized');
+
   const { data, error } = await supabase
     .from('companions')
     .select()
@@ -88,9 +91,7 @@ export const getCompanionDetails = async (companionId: string) => {
 export const addToSessionHistory = async (companionId: string) => {
   const supabase = createSupabaseClient();
   const { userId } = await auth();
-  if (!userId) {
-    return { error: "Unauthorized" };
-  }
+  if (!userId) throw new Error('Unauthorized');
 
   const { data, error } = await supabase
     .from('session_history')
@@ -109,11 +110,15 @@ export const addToSessionHistory = async (companionId: string) => {
 export const getRecentSessions = async (limit: number = 10) => {
   const supabase = createSupabaseClient();
 
+  const { userId } = await auth();
+  if (!userId) throw new Error('Unauthorized');
+
   const { data, error } = await supabase
     .from('session_history')
     .select('companions:companion_id(*)')
     .order('created_at', { ascending: false })
-    .limit(limit);
+    .limit(limit)
+    .eq('user_id', userId);
 
   if (error) throw new Error(error.message);
 
@@ -128,7 +133,8 @@ export const getUserSessions = async (userId: string, limit: number = 10) => {
     .select('companions:companion_id(*)')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
-    .limit(limit);
+    .limit(limit)
+    .eq('user_id', userId);
 
   if (error) {
     return { error: error.message || 'Failed to get user sessions' };
